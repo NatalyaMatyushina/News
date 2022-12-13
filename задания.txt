@@ -1,0 +1,67 @@
+py manage.py makemigrations
+py manage.py migrate
+py manage.py shell
+from news.models import *
+
+Задание 1:
+u1 = User.objects.create_user(username='Mary')
+u2 = User.objects.create_user(username='Fedor')
+Задание 2:
+Author.objects.create(authorUser=u1)
+Author.objects.create(authorUser=u2)
+Задание 3:
+Category.objects.create(name='IT')
+Category.objects.create(name='Dog')
+Category.objects.create(name='Cat')
+Category.objects.create(name='bird')
+***
+author=Author.objects.get(id=1)
+author=Author.objects.get(id=2)
+Задание 4
+Post.objects.create(author=author, categoryType='NW', title='attention',text='something')
+Post.objects.create(author=author, categoryType='AR', title='animalworld',text='bigtext')
+Post.objects.create(author=author, categoryType='AR', title='Forest',text='sometext')
+Задание 5
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=1))
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=2))
+Задание 6
+Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=1).authorUser, text='anytext')
+Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=Author.objects.get(id=2).authorUser, text='anytext') 
+Comment.objects.create(commentPost=Post.objects.get(id=3), commentUser=Author.objects.get(id=2).authorUser, text='anytext')
+Comment.objects.create(commentPost=Post.objects.get(id=3), commentUser=Author.objects.get(id=1).authorUser, text='anytext')
+Задание 7
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=1).dislike()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=2).like()
+Post.objects.get(id=2).like()
+Post.objects.get(id=2).like()
+Post.objects.get(id=3).dislike()
+Post.objects.get(id=3).dislike()
+Post.objects.get(id=3).dislike()
+Post.objects.get(id=3).dislike()
+Задание 8
+Comment.objects.get(id=1).rating
+Comment.objects.get(id=2).rating
+Post.objects.get(id=2).rating
+Post.objects.get(id=3).rating
+Задание 9
+a=Author.objects.get(id=1)
+a.update_rating()
+a.ratingAuthor
+b=Author.objects.get(id=2)
+b.update_rating()
+b.ratingAuthor
+Задание 10
+t_best = Post.objects.order_by('-rating').values('id')[0]['id']
+Post.objects.get(id=t_best).dataCreation.strftime('%d-%m-%y')
+Post.objects.get(id=t_best).author.authorUser.username
+Post.objects.get(id=t_best).rating
+Post.objects.get(id=t_best).title
+Post.objects.get(id=t_best).preview()
+Задание 11
+'...'.join(f'Comment: {i}' for i in Comment.objects.filter(post_id=t_best))
